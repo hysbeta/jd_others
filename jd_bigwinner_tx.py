@@ -10,7 +10,7 @@ Python 3.9.7
 环境变量说明：
 export dyjpin="需要助力的pin值"  
 
-cron: */5 * * * *
+cron: */5 0-1/1,13-15/1 * * *	
 new Env('赚钱大赢家提现');
 """
 
