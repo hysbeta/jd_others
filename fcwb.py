@@ -118,12 +118,12 @@ async def taskGetUrl(functionId, body, cookie):
         'Accept-Language': 'zh-cn',
         'Accept-Encoding': 'gzip, deflate, br',
     }
-    for n in range(5):
-        time.sleep(1)
+    for n in range(16):
         try:
             res = requests.get(url, headers=headers, timeout=30).json()
             return res
         except Exception as e:
+            time.sleep(1)
             # errorMsg = f"❌ 第{e.__traceback__.tb_lineno}行：{e}"
             # print(errorMsg)
             if n == 4:
