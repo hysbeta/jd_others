@@ -119,7 +119,7 @@ async def taskGetUrl(functionId, body, cookie):
         'Accept-Encoding': 'gzip, deflate, br',
     }
     for n in range(16):
-        time.sleep(1)
+        time.sleep(2)
         try:
             res = requests.get(url, headers=headers, timeout=30).json()
             return res
