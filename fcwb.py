@@ -123,7 +123,7 @@ async def taskGetUrl(functionId, body, cookie):
             res = requests.get(url, headers=headers, timeout=30).json()
             return res
         except Exception as e:
-            time.sleep(1)
+            time.sleep(2)
             # errorMsg = f"❌ 第{e.__traceback__.tb_lineno}行：{e}"
             # print(errorMsg)
             print('第'+str(n)+'次重试')
