@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
-cron: 11 11 10 11 * fcwb_tx.py
+cron: 15,45 22 * * * fcwb_tx.py
 new Env('发财挖宝提现');
 活动入口: 京东极速版 > 我的 > 发财挖宝
 最高可得总和为10元的微信零钱和红包
