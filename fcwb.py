@@ -126,7 +126,9 @@ async def taskGetUrl(functionId, body, cookie):
             time.sleep(1)
             # errorMsg = f"❌ 第{e.__traceback__.tb_lineno}行：{e}"
             # print(errorMsg)
-            if n == 4:
+            print('第'+str(n)+'次重试')
+            print(str(e))
+            if n == 16:
                 print('API请求失败，请检查网路重试❗\n')
 
 
