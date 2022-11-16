@@ -10,7 +10,7 @@ Python 3.9.7
 环境变量说明：
 export dyjpin="需要助力的pin值"  
 
-cron: 6 6 6 6 *
+cron: */5 * * * *
 new Env('赚钱大赢家提现');
 """
 
@@ -88,9 +88,9 @@ class Userinfo:
             return
         else:
             self.shareUuid = home_res['data']['shareId']
-            logger.info(f"车头账户[{self.name}]：已获取助力码[{self.shareUuid}]")
+        #    logger.info(f"车头账户[{self.name}]：已获取助力码[{self.shareUuid}]")
             logger.info(f"车头账户[{self.name}]：当前营业币约[{home_res['data']['canUseCoinAmount']}]元")
-        self.GetUserTaskStatusList()
+        #self.GetUserTaskStatusList()
         # if self.need_help:
         #     logger.info(f"当前从{Userinfo.index}继续")
         #     for cookie in Userinfo.cookie_obj[Userinfo.index:]:
