@@ -124,24 +124,28 @@ class Userinfo:
         return self.exchange_query()
     
     def exchange_query(self):
-        url = f'https://wq.jd.com/makemoneyshop/exchangequery?g_ty=h5&g_tk=&appCode={appCode}&activeId={activeId}&sceneval=2'
-        res = requests.get(url=url, headers=self.headers).json()
-        if res['code'] == 0:
-            logger.info(f"车头账户[{self.name}]：获取微信提现信息成功")
-            canUseCoinAmount = float(res['data']['canUseCoinAmount'])
-            logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元")
-            for data in res['data']['cashExchangeRuleList'][::-1]:
-                if float(data['cashoutAmount']) not in not_tx:
-                    if canUseCoinAmount >= float(data['cashoutAmount']):
-                        logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,符合提现规则[{data['cashoutAmount']}]门槛")
-                        rule_id = data['id']
-                        tx_result = self.tx(rule_id, float(data['cashoutAmount']))
-                        if tx_result:
-                            break
+        try:
+            url = f'https://wq.jd.com/makemoneyshop/exchangequery?g_ty=h5&g_tk=&appCode={appCode}&activeId={activeId}&sceneval=2'
+            res = requests.get(url=url, headers=self.headers).json()
+            if res['code'] == 0:
+                logger.info(f"车头账户[{self.name}]：获取微信提现信息成功")
+                canUseCoinAmount = float(res['data']['canUseCoinAmount'])
+                logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元")
+                for data in res['data']['cashExchangeRuleList'][::-1]:
+                    if float(data['cashoutAmount']) not in not_tx:
+                        if canUseCoinAmount >= float(data['cashoutAmount']):
+                            logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,符合提现规则[{data['cashoutAmount']}]门槛")
+                            rule_id = data['id']
+                            tx_result = self.tx(rule_id, float(data['cashoutAmount']))
+                            if tx_result:
+                                break
+                        else:
+                            logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,不足提现[{data['cashoutAmount']}]门槛")
                     else:
-                        logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,不足提现[{data['cashoutAmount']}]门槛")
-                else:
-                    logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,不提现[{not_tx}]门槛")
+                        logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,不提现[{not_tx}]门槛")
+        except Exception as e:
+            logger.info(f"车头账户[{self.name}]：{str(e)}")
+                                    
 
     def tx(self, rule_id, target_amount):
         url = f'https://wq.jd.com/prmt_exchange/client/exchange?g_ty=h5&g_tk=&appCode={appCode}&bizCode=makemoneyshop&ruleId={rule_id}&sceneval=2'
