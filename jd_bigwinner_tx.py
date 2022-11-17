@@ -135,14 +135,14 @@ class Userinfo:
                     if canUseCoinAmount >= float(data['cashoutAmount']):
                         logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,符合提现规则[{data['cashoutAmount']}]门槛")
                         rule_id = data['id']
-                        self.tx(rule_id)
+                        self.tx(rule_id, float(data['cashoutAmount'])
 
                     else:
                         logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,不足提现[{data['cashoutAmount']}]门槛")
                 else:
                     logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,不提现[{not_tx}]门槛")
 
-    def tx(self, rule_id):
+    def tx(self, rule_id, target_amount):
         url = f'https://wq.jd.com/prmt_exchange/client/exchange?g_ty=h5&g_tk=&appCode={appCode}&bizCode=makemoneyshop&ruleId={rule_id}&sceneval=2'
         res = requests.get(url=url, headers=self.headers).json()
         if res['ret'] == 0:
@@ -156,6 +156,8 @@ class Userinfo:
             return True
         else:
             logger.info(f"车头账户[{self.name}]：{res}")
+            if "库存不足" in str(res):
+                not_tx.append(target_amount)
 
     def GetUserTaskStatusList(self):
         global invite_taskId, need_invite
