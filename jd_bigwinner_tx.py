@@ -149,6 +149,7 @@ class Userinfo:
             return True
         if res['ret'] == 232:
             logger.info(f"车头账户[{self.name}]：{res['msg']}")
+            not_tx.append(target_amount)
             return False
         if res['ret'] == 604:
             logger.info(f"车头账户[{self.name}]：{res['msg']}")
