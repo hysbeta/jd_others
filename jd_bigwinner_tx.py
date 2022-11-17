@@ -136,7 +136,6 @@ class Userinfo:
                         logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,符合提现规则[{data['cashoutAmount']}]门槛")
                         rule_id = data['id']
                         self.tx(rule_id, float(data['cashoutAmount'])
-
                     else:
                         logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,不足提现[{data['cashoutAmount']}]门槛")
                 else:
