@@ -135,7 +135,9 @@ class Userinfo:
                     if canUseCoinAmount >= float(data['cashoutAmount']):
                         logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,符合提现规则[{data['cashoutAmount']}]门槛")
                         rule_id = data['id']
-                        self.tx(rule_id, float(data['cashoutAmount']))
+                        tx_result = self.tx(rule_id, float(data['cashoutAmount']))
+                        if tx_result:
+                            break
                     else:
                         logger.info(f"车头账户[{self.name}]：当前余额[{canUseCoinAmount}]元,不足提现[{data['cashoutAmount']}]门槛")
                 else:
@@ -158,6 +160,7 @@ class Userinfo:
             logger.info(f"车头账户[{self.name}]：{res}")
             if "库存不足" in str(res):
                 not_tx.append(target_amount)
+            return False
 
     def GetUserTaskStatusList(self):
         global invite_taskId, need_invite
